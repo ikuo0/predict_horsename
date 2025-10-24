@@ -1,0 +1,20 @@
+
+sandbox/
+/scraping/
+/parse/parse_data/
+/small_run*/
+/model_trainer/model_trainer_out/
+/enum_horse_name/enum_horse_name_out/
+.venv*/
+
+*.db
+*.npz
+*.keras
+*.h5
+
+# pycache 等、python 関係のファイル、フォルダ除外
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <!-- CSS の読み込み -->
+  <link rel="stylesheet" href="/css.css" />
+  <meta charset="UTF-8" />
+  <title>テスト</title>
+</head>
+<body style="padding: 12px;">
+
+
+
+  <!-- 各入力要素を１行とする -->
+  <form style="display: flex; flex-direction: column; gap: 8px;">
+    <!-- 競走馬のプレフィクス入力 input -->
+    <label for="inputPrefixString">競走馬の名前の一部:</label>
+    <input type="text" id="inputPrefixString" placeholder="競走馬の名前の一部を入力、例「イクノ」、入力無しでも作成されます" />
+    <hr>
+
+    <!-- 予測の偏り係数 0.1 ～ 2.0 -->
+    <label for="inputSmoothCoefficient">予測の偏り係数 0.1 ～ 2.0、小さい＝ランダム性が高い、大きい＝確定的:</label>
+    <input type="number" id="inputSmoothCoefficient" min="0.1" max="2.0" step="0.1" value="1.0" />
+    <hr>
+
+    <!-- 予測数の入力 1 ~ 50 -->
+    <label for="inputPredictCount">予測数 (1 ～ 50):</label>
+    <input type="number" id="inputPredictCount" min="1" max="50" step="1" value="5" />
+    <hr>
+
+    <!-- 予測実行ボタン -->
+    <button id="predictButton" type="button">予測</button>
+
+    <!-- 予測結果表示エリア readonly text area で実装-->
+    <textarea id="predictionResult" readonly></textarea>
+  </form>
+
+<!-- load java scripts -->
+  <script src="/jquery-3.7.1.js"></script>
+  <!--script src="/tfjs@4.js"></script>-->
+  <!--script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4/dist/tf.min.js"></script-->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js"></script>
+  <script src="/index.js"></script>
+  <!-- プログラム実行開始 -->
+  <script>
+    $(function() {
+      (new IndexMain()).main();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+{
+  "name": "tf-gpu-dev",
+  "image": "tensorflow/tensorflow:latest-gpu",
+  "runArgs": [
+    "--gpus=all",
+    "--cpus=12",
+    "--memory=64g",
+    "--shm-size=16g",
+    "--ulimit", "memlock=-1",
+    "--ulimit", "stack=67108864"
+  ],
+  "containerEnv": {
+    "CUDA_VISIBLE_DEVICES": "0",
+    "TF_CPP_MIN_LOG_LEVEL": "2",
+    "TF_ENABLE_ONEDNN_OPTS": "1",
+    "TF_NUM_INTRAOP_THREADS": "12",
+    "TF_NUM_INTEROP_THREADS": "4",
+    "OMP_NUM_THREADS": "12",
+    "KMP_BLOCKTIME": "0",
+    "__deleted__TF_XLA_FLAGS": "--xla_cpu_multi_thread_eigen=false --xla_gpu_enable_triton=true"
+  },
+  "features": {},
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-toolsai.jupyter",
+        "ms-python.vscode-pylance"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/bin/python3",
+        "python.analysis.indexing": true,
+        "python.analysis.typeCheckingMode": "basic",
+        "jupyter.notebookFileRoot": "${workspaceFolder}"
+      }
+    }
+  },
+  "remoteUser": "root",
+  "postCreateCommand": "",
+  "remoteEnv": {
+    "LD_LIBRARY_PATH": "/usr/local/cuda/targets/x86_64-linux/lib:/lib/x86_64-linux-gnu:${LD_LIBRARY_PATH}",
+    "TF_CPP_MIN_LOG_LEVEL": "1"
+  }
+}
