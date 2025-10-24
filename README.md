@@ -1,6 +1,11 @@
 # 競走馬の名前を学習して、新しい名前を生成するモデルを作成するプロジェクト
 
-## 手順
+## 使い方
+(https://ikuo0.github.io/predict_horsename/)[https://ikuo0.github.io/predict_horsename/]
+Web ブラウザ上で動作する TensorFlow.js を使った競走馬の名前生成モデルのデモサイトです。
+競走馬の名前の一部を入力すると、続きの名前を予測して表示します。
+
+## 作成手順
 scraping netkeibaからデータのダウンロード
 parse HTMLをパースしてテーブルデータをJSONで保存
 summary 登場する文字を集計（カタカナ文字のみ）
