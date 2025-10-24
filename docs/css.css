@@ -1,0 +1,80 @@
+/* ==== Minimal Soft-Gray UI (flat inputs/buttons) ==== */
+:root{
+  --bg: #f7f7f8;
+  --surface: #ffffff;
+  --text: #1f1f1f;
+  --muted: #6b6b6b;
+  --border: #d7d7da;
+  --accent: #3a7afe;   /* フォーカスの輪郭色（控えめ） */
+  --radius: 10px;
+  --gap: 12px;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#121314; --surface:#17181a; --text:#f1f1f1; --muted:#9aa0a6; --border:#2a2c2f; --accent:#6da2ff;
+  }
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, "Hiragino Sans", "Noto Sans JP", sans-serif;
+  color:var(--text);
+  background:linear-gradient(#0000,#0000), var(--bg);
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+}
+
+a{color:inherit; text-decoration:underline; text-underline-offset:2px}
+small, .muted{color:var(--muted)}
+
+.container{max-width:720px; margin:auto; padding:24px}
+
+h1,h2,h3{margin:0 0 8px}
+p{margin:0 0 var(--gap)}
+
+hr{
+  border:0; height:1px; background:var(--border);
+  margin: var(--gap) 0;
+}
+
+/* フォームの縦積み最小ルール */
+form.v{display:flex; flex-direction:column; gap:var(--gap)}
+
+/* 入力系: フラット（影なし・淡色・角丸） */
+input, textarea, select{
+  appearance:none; border:1px solid var(--border); background:var(--surface);
+  color:var(--text); padding:10px 12px; border-radius:var(--radius);
+  outline: none; width:100%;
+}
+input::placeholder, textarea::placeholder{color:var(--muted)}
+textarea{min-height:120px; resize:vertical}
+
+/* ボタン: フラット（同系色） */
+button, .btn{
+  appearance:none; border:1px solid var(--border); background:var(--surface);
+  color:var(--text); padding:10px 14px; border-radius:var(--radius);
+  cursor:pointer; inline-size:fit-content;
+}
+button:hover, .btn:hover{background:color-mix(in oklab, var(--surface) 92%, black)}
+button:active, .btn:active{background:color-mix(in oklab, var(--surface) 88%, black)}
+
+/* フォーカス: さりげない1pxアウトライン（影なし） */
+:focus-visible{
+  outline:2px solid color-mix(in oklab, var(--accent) 70%, white);
+  outline-offset:2px; border-radius:calc(var(--radius) - 2px);
+}
+
+/* チェックボックス/ラジオもフラット寄り */
+input[type="checkbox"], input[type="radio"]{inline-size:1rem; block-size:1rem; accent-color: var(--accent)}
+
+/* テーブル（必要最低限） */
+table{width:100%; border-collapse:collapse; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden}
+th,td{padding:10px 12px; border-bottom:1px solid var(--border)}
+th{text-align:left; color:var(--muted); font-weight:600}
+tr:last-child td{border-bottom:0}
+
+/* 低刺激なアニメーション */
+@media (prefers-reduced-motion: reduce){
+  *{animation:none!important; transition:none!important}
+}

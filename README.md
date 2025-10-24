@@ -1,3 +1,23 @@
+# 競走馬の名前を学習して、新しい名前を生成するモデルを作成するプロジェクト
+
+## 手順
+scraping netkeibaからデータのダウンロード
+parse HTMLをパースしてテーブルデータをJSONで保存
+summary 登場する文字を集計（カタカナ文字のみ）
+futurize Xデータ、Yデータ に特徴化、正解ラベルの作成を実施
+scaling_feature
+PCA 8~64 まで圧縮して再現度を見て使う奴を決める
+  PCAは不要、圧縮率が悪く、圧縮するメリットが無い
+model_trainer でモデル学習
+  学習済みモデルを保存
+  JavaScript で使えるように tensorflowjs で変換
+model_predict で学習済みモデルの試験
+
+## 除外コード
+scraping は netkeiba に迷惑かかりそうなのでコード非公開
+その他競走馬名や学習データはサイズや数が大きすぎるため非公開
+
+# 以下メモ
 
 # tensorflowについて
 https://www.tensorflow.org/js/tutorials?hl=ja
@@ -46,20 +66,6 @@ find ./scraping/download_data -type f | wc -l
 export TF_USE_LEGACY_KERAS=1
 
 ```
-
-# 実行順序
-
-scraping netkeibaからデータのダウンロード
-parse HTMLをパースしてテーブルデータをJSONで保存
-summary 登場する文字を集計（カタカナ文字のみ）
-futurize Xデータ、Yデータ に特徴化、正解ラベルの作成を実施
-scaling_feature
-PCA 8~64 まで圧縮して再現度を見て使う奴を決める
-  PCAは不要、圧縮率が悪く、圧縮するメリットが無い
-model_trainer でモデル学習
-  学習済みモデルを保存
-  JavaScript で使えるように tensorflowjs で変換
-model_predict で学習済みモデルの試験
 
 
 # GPU 認識対応
