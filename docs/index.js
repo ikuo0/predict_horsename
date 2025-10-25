@@ -228,6 +228,7 @@ function InputValues() {
     var self = this;
     self.prefix_string = "";
     self.smooth_coefficient = 0.8;
+    self.input_top_n = 5;
     self.predict_count = 10;
 
     self.validation = function() {
@@ -242,6 +243,11 @@ function InputValues() {
         if (isNaN(me.smooth_coefficient) || me.smooth_coefficient < 0.1 || me.smooth_coefficient > 2.0) {
             log_error("smooth_coefficient:", me.smooth_coefficient);
             alert("スムース係数は0.1から2.0の範囲で入力してください。");
+            return false;
+        }
+        // input_top_n は 1 ~ 50 の範囲
+        if (isNaN(me.input_top_n) || me.input_top_n < 1 || me.input_top_n > 50) {
+            alert("予測文字の採用数は1から50の範囲で入力してください。");
             return false;
         }
         // predict_count は 1 ~ 50 の範囲
@@ -268,7 +274,7 @@ function IndexMain() {
     // predict functions
     ////////////////////////////////////////////////////////////
     //
-    self._execute_predict = async function(prefix_string, smooth_coeffient) {
+    self._execute_predict = async function(prefix_string, smooth_coeffient, top_n) {
         var me = this;
         log_info("Execute predict:");
         log_info("  prefix_string:", prefix_string);
@@ -281,7 +287,7 @@ function IndexMain() {
             var next_char_feat = await me.featureFunction.get_horse_name_predict_feat(horse_name);
             var row0 = await me.tensorFlowFunction.predict(next_char_feat);
             var smoothed_feat = me.featureFunction.power_smoothing(row0, smooth_coeffient);
-            var char_index = me.get_next_char_index(smoothed_feat, 5);
+            var char_index = me.get_next_char_index(smoothed_feat, top_n);
             var next_char = me.featureFunction.characters_list[char_index];
             log_info("horse_name: ", horse_name);
             if (next_char === "EOS_PAD") {
@@ -311,7 +317,8 @@ function IndexMain() {
         for (var i = 0; i < inputValues.predict_count; i++) {
             var predicted_name = await me._execute_predict(
                 inputValues.prefix_string,
-                inputValues.smooth_coefficient
+                inputValues.smooth_coefficient,
+                inputValues.input_top_n
             );
             predict_names.push(predicted_name);
         }
