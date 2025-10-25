@@ -1,14 +1,18 @@
 # import concurrent.futures
-from concurrent.futures import ProcessPoolExecutor, as_completed
 import glob
 import json
 import os
-import sys
+from concurrent.futures import ProcessPoolExecutor, as_completed
 
 from bs4 import BeautifulSoup
 
+from app import Application
+from utils import logutils
+
+app = Application(__file__)
+logger = logutils.get_logger(app.out_dir)
+
 DOC_DIR = "/workspaces/pj0005_horse_name/scraping/download_data"
-OUT_DIR = "/workspaces/pj0005_horse_name/parse/parse_data"
 
 def euc_to_utf8(bin_text: bytes) -> str:
     """Convert EUC-JP encoded bytes to UTF-8 string."""
@@ -72,15 +76,16 @@ def parse_html(file_path: str) -> list[dict]:
 
 # マルチスレッドで実行する場合のラッパー
 def parse_execute(file_name: str) -> int:
+    out_dir = app.out_dir
     try:
         data = parse_html(file_name)
         basename = os.path.basename(file_name)
-        out_file = os.path.join(OUT_DIR, f"parsed_{basename}.json")
+        out_file = os.path.join(out_dir, f"parsed_{basename}.json")
         # 既にファイルが存在していたら処理を終了する
         if os.path.exists(out_file):
             print(f"File {out_file} already exists. Skipping.")
             return 0
-        os.makedirs(OUT_DIR, exist_ok=True)
+        os.makedirs(out_dir, exist_ok=True)
         with open(out_file, "w", encoding="utf-8") as f:
             json.dump(data, f, ensure_ascii=False, indent=2)
         return len(data)

@@ -5,19 +5,19 @@ import re
 from concurrent.futures import ProcessPoolExecutor, as_completed
 from dataclasses import dataclass
 from pathlib import Path
-
+from app import Application
 from parse import parse
 from utils import ioutils, logutils, timeutils, utils
 
-IDENTITY = utils.source_path_identity(__file__)
-OUT_DIR = utils.setup_out_dir(__file__)
-logger = logutils.get_logger(OUT_DIR)
+app = Application(__file__)
+logger = logutils.get_logger(app.out_dir)
+
 
 FILE_PREFIX = Path(__file__).stem
 
 _KATAKANA_ONLY = re.compile(r'^[ァ-ヶー]+$')
 
-PARSE_DIR = parse.OUT_DIR
+PARSE_DIR = "/workspaces/pj0005_horse_name/out/parse_out"
 
 
 ############################################################

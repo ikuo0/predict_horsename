@@ -40,5 +40,13 @@
   "remoteEnv": {
     "LD_LIBRARY_PATH": "/usr/local/cuda/targets/x86_64-linux/lib:/lib/x86_64-linux-gnu:${LD_LIBRARY_PATH}",
     "TF_CPP_MIN_LOG_LEVEL": "1"
-  }
+  },
+  "#mounts_comment": "Tensorflowを利用するプロジェクトで /opt を共有する ",
+  "mounts": [
+    {
+      "source": "tensorflow-project-storage",
+      "target": "/opt/shared",
+      "type": "volume"
+    }
+  ]
 }

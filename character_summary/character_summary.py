@@ -10,16 +10,14 @@ from pathlib import Path
 from enum_horse_name import enum_horse_name
 from parse import parse
 from utils import utils, ioutils, logutils, timeutils
+from app import Application
 
-IDENTITY = utils.source_path_identity(__file__)
-OUT_DIR = utils.setup_out_dir(__file__)
-logger = logutils.get_logger(OUT_DIR)
+app = Application(__file__)
+logger = logutils.get_logger(app.out_dir)
 
 FILE_PREFIX = Path(__file__).stem
 
-_KATAKANA_ONLY = re.compile(r'^[ァ-ヶー]+$')
-
-ENUM_HORSE_NAME_DIR = enum_horse_name.OUT_DIR
+ENUM_HORSE_NAME_DIR = "/workspaces/pj0005_horse_name/out/enum_horse_name_out"
 
 
 ############################################################
@@ -83,13 +81,14 @@ class Executer:
         self.out_dir = out_dir
 
     def main(self):
+        out_dir = self.out_dir
         try:
             # 競走馬名から登場文字の集計と保存
             elogger = logutils.ElapsedLogger("Enum Horse Names", logger)
-            os.makedirs(OUT_DIR, exist_ok=True)
-            characters_summary_file = os.path.join(OUT_DIR, f"{FILE_PREFIX}_characters_summary.json")
+            os.makedirs(out_dir, exist_ok=True)
+            characters_summary_file = os.path.join(out_dir, f"{FILE_PREFIX}_characters_summary.json")
             enum_all_characters(characters_summary_file, self.horse_name_file)
-            result_file = os.path.join(OUT_DIR, f"{FILE_PREFIX}_result.json")
+            result_file = os.path.join(out_dir, f"{FILE_PREFIX}_result.json")
             result_data = {
                 "start_time": timeutils.to_str(elogger.meas.start_time),
                 "elapsed_time": timeutils.elapsed(elogger.meas.start_time)[1].total_seconds(),
@@ -104,7 +103,7 @@ class Executer:
 
 def main():
     horse_name_file = os.path.join(ENUM_HORSE_NAME_DIR, "enum_horse_name_horse_names.json")
-    executer = Executer(horse_name_file, OUT_DIR)
+    executer = Executer(horse_name_file, app.out_dir)
     executer.main()
 
 if __name__ == "__main__":

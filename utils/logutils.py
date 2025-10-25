@@ -1,11 +1,6 @@
-from __future__ import annotations
-
 import logging
-import os
 import sys
-from logging import FileHandler
 from pathlib import Path
-from typing import Union
 
 from utils import timeutils
 

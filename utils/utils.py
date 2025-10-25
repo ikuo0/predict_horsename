@@ -1,6 +1,6 @@
-
-
 import os
+import __main__
+
 
 def source_path_identity(full_path: str) -> str:
     filename = os.path.basename(full_path)

@@ -80,6 +80,31 @@ CUDA ドライバのバージョンが古いと認識されないことが原因
 list_physical_devices("GPU") で GPU 列挙時に 0 個の時は "XLAGPU" を指定すると認識されることもあった
 最終的には "GPU" で認識できた、CUDA ドライバを最新にしたら認識された
 
+次のパターンにより認識できない事がある
+環境変数 LD_LIBRARY_PATH が適切に設定されていない
+環境変数 LD_LIBRARY_PATH に設定されているパスに CUDA ライブラリが存在しない
+環境変数 LD_LIBRARY_PATH に設定されているパスに CUDA ライブラリが存在するが、バージョンが異なる
+
+今回は cuda12 のインストールで解決した
+
+```
+https://developer.nvidia.com/cuda-downloads
+
+# ubuntu 公式にある場合（新しめのUbuntu）
+sudo apt update
+sudo apt install libcudart12
+
+# NVIDIA の CUDA APT リポジトリを使う場合（推奨・細かく版指定可）
+sudo apt install cuda-runtime-12-4
+
+# まず NVIDIA のキーリングを追加（例：Ubuntu 24.04/22.04 共通手順）：
+wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/cuda-keyring_1.1-1_all.deb
+# 22.04なら URL の ubuntu2404 を ubuntu2204 に変えてください
+sudo dpkg -i cuda-keyring_1.1-1_all.deb
+sudo apt update
+```
+
+
 # tensorflowjs の使い方
 python.tensorflow 側で `model = keras.Model` をトレーニング後に `model.export(export_dir, "tf_saved_model")` で保存し、
 次のコマンドでJS用の変換を実行
@@ -95,4 +120,28 @@ python.tensorflow 側で `model = keras.Model` をトレーニング後に `mode
 tf.loadGraphModel で読み込みという手順で上手く動作した。
 
 .h5, .keras 形式からの変換 → tf.loadLayersModel では上手くいかなかった
+
+# git 初期設定
+
+```
+
+# git, vim の準備
+apt update
+apt install -y git vim
+
+# 認証ファイルの準備
+
+mkdir ~/.ssh
+chmod 700 ~/.ssh
+
+touch ~/.ssh/id_rsa
+vi ~/.ssh/id_rsa
+chmod 600 ~/.ssh/id_rsa
+
+touch ~/.ssh/id_rsa.pub
+vi ~/.ssh/id_rsa.pub
+chmod 644 ~/.ssh/id_rsa.pub
+
+
+```
 

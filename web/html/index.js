@@ -374,12 +374,6 @@ function IndexMain() {
     /////////////////////////////////////////////////////////////
     // predict functions
     /////////////////////////////////////////////////////////////
-    self.get_top5_indexes = function(prob_arr) {
-        var me = this;
-        log_error("prob_arr", prob_arr)
-        var indexes = n1d.argsort(prob_arr);
-        return indexes.slice(0, 5);
-    }
     self.probability_random_select = function(prob_arr) {
         var me = this;
         var prob_sum = n1d.sum_1d(prob_arr);
